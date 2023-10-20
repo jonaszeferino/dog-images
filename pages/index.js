@@ -13,6 +13,7 @@ let url = "https://dog.ceo/api/breeds/image/random";
 export default function Home() {
   let [dogfact, setdogfact] = useState();
   let [dogCount, setDogCount] = useState(-1);
+  let [dog, setDog] = useState("");
 
   useEffect(() => {
     console.log("mais uma imagem chamada");
@@ -22,7 +23,21 @@ export default function Home() {
   const apiCall = () => {
     fetch(url)
       .then((response) => response.json())
-      .then((result) => setdogfact(result.message));
+      .then((result) => {
+        setdogfact(result.message);
+
+        if (result.message) {
+          // Use uma expressão regular para encontrar a raça na URL
+          const regex = /breeds\/([^/]+)/;
+          const match = result.message.match(regex);
+
+          if (match) {
+            // O trecho correspondente estará em match[1]
+            const breed = match[1];
+            setDog(breed);
+          }
+        }
+      });
   };
 
   return (
@@ -38,6 +53,12 @@ export default function Home() {
           >
             <strong>Random Dogs</strong>
           </h1>
+        </Center>
+      </ChakraProvider>
+
+      <ChakraProvider>
+        <Center>
+          <span>{dog}</span>
         </Center>
       </ChakraProvider>
 
@@ -60,7 +81,9 @@ export default function Home() {
               alt="Random Dog"
             />
           </ChakraProvider>
-        ): "Click On Button New"}
+        ) : (
+          "Click On Button New"
+        )}
 
         {/* objectFit cut image with the size of the boxSize */}
         <br />
