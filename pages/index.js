@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.css";
-import Image from "next/image";
 import {
   Button,
   ChakraProvider,
@@ -27,12 +26,10 @@ export default function Home() {
         setdogfact(result.message);
 
         if (result.message) {
-          // Use uma expressão regular para encontrar a raça na URL
           const regex = /breeds\/([^/]+)/;
           const match = result.message.match(regex);
 
           if (match) {
-            // O trecho correspondente estará em match[1]
             const breed = match[1];
             setDog(breed);
           }
@@ -47,7 +44,7 @@ export default function Home() {
           <h1
             style={{
               color: "black",
-              fontSize: "2rem", // Tamanho da fonte em "rem"
+              fontSize: "2rem",
               marginTop: "100px",
             }}
           >
@@ -77,14 +74,13 @@ export default function Home() {
               borderRadius="25px"
               objectFit="cover"
               boxSize="500px"
-              src={dogfact}
+              src={dogfact ?? "/public/dog_callback.png"}
               alt="Random Dog"
             />
           </ChakraProvider>
         ) : (
           "Click On Button New"
         )}
-
         {/* objectFit cut image with the size of the boxSize */}
         <br />
         <div
