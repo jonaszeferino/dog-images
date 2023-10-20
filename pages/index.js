@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Image from "next/image";
-import { Button, ChakraProvider, Center, BeatLoader } from "@chakra-ui/react";
+import {
+  Button,
+  ChakraProvider,
+  Center,
+  Image as ImageChakra,
+} from "@chakra-ui/react";
 
 let url = "https://dog.ceo/api/breeds/image/random";
 
@@ -31,14 +36,17 @@ export default function Home() {
         }}
       >
         <div className={styles.title}></div>
+        <ChakraProvider>
+          <ImageChakra
+            borderRadius="25px"
+            objectFit="cover"
+            boxSize="400px"
+            src={dogfact}
+            alt="Dan Abramov"
+          />
+        </ChakraProvider>
 
-        <Image
-          src={dogfact}
-          alt="dog"
-          layout="fixed"
-          width="600"
-          height="500"
-        />
+        {/* objectFit cut image with the size of the boxSize */}
         <br />
         <div
           style={{
@@ -51,7 +59,9 @@ export default function Home() {
         </div>
       </div>
       <ChakraProvider>
-        <Center>{dogCount}</Center>
+        <Center>
+          <strong>{dogCount}</strong>{" "}
+        </Center>
       </ChakraProvider>
       <br />
       <ChakraProvider>
